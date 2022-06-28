@@ -17,10 +17,11 @@ mod music;
 use music::GameSound::GameSound;
 use logic::figure::*;
 
+use piston::Events;
 use piston::window::WindowSettings;
+use piston::RenderArgs;
 use glutin_window::GlutinWindow as Window;
 use opengl_graphics::{ GlGraphics, OpenGL };
-use piston::event::*;
 use std::option::Option;
 use graphics::*;
 use piston::input::Button::*;
@@ -45,9 +46,9 @@ impl App {
         	[(gameSize[0] * cellSize) as u32, (gameSize[1] * cellSize) as u32]
     		);
 		
-		let wnd = Window::new(ws);
+		let wnd = Window::new(&ws);
 	
-		App { window: Some(wnd)
+		App { window: Some(wnd.unwrap())
 			, game: logic::game::Game::new(gameSize)
 			, gameSound: GameSound::new()	
 			, rnd: render::renderer::Renderer::new(cellSize)
@@ -57,11 +58,11 @@ impl App {
 	}
 
 	fn run(mut self) {
-		let opengl = OpenGL::_3_2;
+		let opengl = OpenGL::V3_2;
 		let mut gl = GlGraphics::new(opengl);
 		
 		self.gameSound.playMusic();
-		let evs = self.window.take().unwrap().events();
+		let evs = Events::new(self.window.take().unwrap());
 		
 		
 		for e in evs {
@@ -104,7 +105,7 @@ impl App {
 	
 	fn update(&mut self, elapsed: f64) {
 		let gameStepPeriod:f32 = 0.5;
-		self.gameStepElapsed += elapsed as f32;;
+		self.gameStepElapsed += elapsed as f32;
 		
 		if self.gameStepElapsed > gameStepPeriod {
 			self.gameStepElapsed = 0.0;

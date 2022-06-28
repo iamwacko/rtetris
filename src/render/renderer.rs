@@ -35,7 +35,7 @@ impl Renderer {
 				if board.occuped([i, j]) > 0 {
 					let xpos: f64 = i as f64 * self.cellSize;
 					let ypos: f64 = j as f64 * self.cellSize;
-					self.rectangle.draw([xpos, ypos, self.cellSize, self.cellSize], &DrawState::new(), coxt.transform, gl);
+					self.rectangle.draw([xpos, ypos, self.cellSize, self.cellSize], &DrawState::new_inside(), coxt.transform, gl);
 				}
 			}	
 		}
@@ -48,7 +48,7 @@ impl Renderer {
 						if f.1.occuped([i,j]) > 0 {
 							let xpos: f64 = (i as isize + f.0[0]) as f64 * self.cellSize;
 							let ypos: f64 = (j as isize + f.0[1]) as f64 * self.cellSize;
-							self.rectangle.draw([xpos, ypos, self.cellSize, self.cellSize], &DrawState::new(), coxt.transform, gl);
+							self.rectangle.draw([xpos, ypos, self.cellSize, self.cellSize], &DrawState::new_inside(), coxt.transform, gl);
 						}
 					}
 				}
